@@ -1,0 +1,180 @@
+<html>
+
+<head>
+    <link rel="stylesheet" href="https://aeon-cdn-dev.axldev.nl.aegon.io/aeon-web-sdk/latest/variables.css" />
+    <link rel="stylesheet" href="https://aeon-cdn-dev.axldev.nl.aegon.io/aeon-web/latest/sanitize.min.css" />
+    <link rel="stylesheet" href="https://aeon-cdn-dev.axldev.nl.aegon.io/assets/latest/fonts.css" />
+    <link rel="stylesheet" href="https://aeon-cdn-dev.axldev.nl.aegon.io/aeon-web/latest/index.min.css" />
+
+    <style>
+        @-webkit-keyframes onAutoFillStart {
+            from {
+                /**/ }
+            to {
+                /**/ } }
+
+            @keyframes onAutoFillStart {
+            from {
+                /**/ }
+            to {
+                /**/ } }
+
+            @-webkit-keyframes onAutoFillCancel {
+            from {
+                /**/ }
+            to {
+                /**/ } }
+
+            @keyframes onAutoFillCancel {
+            from {
+                /**/ }
+            to {
+                /**/ } }
+
+            input:-webkit-autofill {
+            -webkit-animation-name: onAutoFillStart;
+                    animation-name: onAutoFillStart; }
+
+            input:not(:-webkit-autofill) {
+            -webkit-animation-name: onAutoFillCancel;
+                    animation-name: onAutoFillCancel; }
+    </style>
+
+</head>
+
+<body>
+    <div class="aeon-grid aeon-margin-top-32">
+        <div class="aeon-grid__row">
+            <div class="aeon-grid__col-md-6 aeon-grid__offset-md-3">
+
+                <form>
+                    <div class="aeon-form-item aeon-margin-bottom-24">
+                        <div class="aeon-input">
+                            <input type="text" class="aeon-input__native-control" id="username">
+                            <label class="aeon-input__label aeon-floating-label" for="username">Username</label>
+                        </div>
+                    </div>
+                    <div class="aeon-form-item aeon-margin-bottom-24">
+                        <div class="aeon-input password">
+                            <input type="password" class="aeon-input__native-control" id="password">
+                            <label class="aeon-input__label aeon-floating-label" for="password">Password</label>
+                            <div class="toggle-visibility" onclick="togglePasswordVisibillity('password')">
+                                <div class="visibility-hide">
+                                    <svg aria-label="Hide" width="24" height="24" fill="#000000">
+                                        <use href="#hide"></use>
+                                    </svg>
+                                </div>
+                                <div class="visibility-show">
+                                    <svg aria-label="Show" width="24" height="24" fill="#000000">
+                                        <use href="#show"></use>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="aeon-button aeon-button--arrow aeon-margin-bottom-16">
+                        <span class="aeon-button__label">Inloggen</span>
+                    </button>
+                    <a href="#" class="aeon-link aeon-link--icon-right aeon-margin-bottom-24">
+                        Inloggegevens vergeten
+                    </a>
+                </form>
+
+
+            </div>
+        </div>
+    </div>
+
+<script>
+    if(!aeon)  var aeon = {} 
+/**
+ * aeon-input
+ * Vanilla implementation of the visual design language for input
+ */
+
+aeon.input = {
+    classLabelFocus: 'aeon-floating-label--focus',
+    classLabelActive: 'aeon-floating-label--active',
+    classLabelFloat: 'aeon-floating-label--float-above',
+    classComponentActive: 'aeon-input--active',
+    classInputField: 'aeon-input__native-control',
+    classInputLabel: 'aeon-input__label',
+    inputKeepers: document.getElementsByClassName('aeon-input'),
+
+    /**
+     * init
+     * Initializes the aeon-input vanilla js
+     */
+    init: function() {
+        var obj = this;
+
+        Array.prototype.forEach.call(this.inputKeepers, function(inputKeeper) {
+            var inputField = inputKeeper.querySelector('.'+obj.classInputField);
+            var inputLabel = inputKeeper.querySelector('.'+obj.classInputLabel);
+
+            inputField.addEventListener('animationstart', function({target, animationName}){
+                obj.addRemoveClass(animationName === 'onAutoFillStart', inputLabel, obj.classLabelFloat);
+            }, false);
+
+
+            // make sure the float class for the label is present when there is text in the input
+            console.log('On load: field:', inputField.getAttribute('id'));
+            console.log('Has a value of:', inputField.value);
+
+            obj.addRemoveClass(inputField.value.length > 0, inputLabel, obj.classLabelFloat);
+
+            // on change of the input - give the label the active class (when there is text)
+            // This can happen by writing into the input programmatically or throught 
+            // autocomplete from the browser.
+            inputField.addEventListener('change', function(){
+                console.log('Change event fired for field: ', inputField.getAttribute('id'));
+                console.log('Now has a value of:', inputField.value);
+
+                obj.addRemoveClass(inputField.value.length > 0, inputLabel, obj.classLabelFloat);
+            })
+
+           
+            // On focus of the input, make sure the label focus is given and the label floats
+            inputField.addEventListener('focus', function() {
+                obj.addRemoveClass(true, inputLabel, obj.classLabelFocus);
+                obj.addRemoveClass(true, inputLabel, obj.classLabelActive);
+                obj.addRemoveClass(true, inputLabel, obj.classLabelFloat);
+                obj.addRemoveClass(true, inputField, obj.classComponentActive);
+            })
+        
+            // on blur of the input, remove the focus label and keep float label when text is present
+            inputField.addEventListener('blur', function() {
+                obj.addRemoveClass(false, inputLabel, obj.classLabelFocus);
+                obj.addRemoveClass(false, inputLabel, obj.classLabelActive);
+                obj.addRemoveClass(false, inputField, obj.classComponentActive);
+                obj.addRemoveClass(inputField.value.length > 0, inputLabel, obj.classLabelFloat);
+            })
+
+        });
+    },
+
+    /**
+     * When toggle is not possible due to possibly rendered states or combinations of
+     * ways to trigger toggle functionality
+     * 
+     * @param {boolean} active 
+     * @param {HTMLElement} element 
+     * @param {String} className 
+     */
+    addRemoveClass: function(active, element, className) {
+        var id = element.textContent;
+        if(active) {
+            element.classList.add(className);
+        } else {
+            element.classList.remove(className);
+        }
+    }
+}
+
+aeon.input.init();
+</script>
+
+
+</body>
+
+</html>
