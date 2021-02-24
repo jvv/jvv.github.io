@@ -113,6 +113,7 @@ aeon.input = {
             var inputLabel = inputKeeper.querySelector('.'+obj.classInputLabel);
 
             inputField.addEventListener('animationstart', function({target, animationName}){
+                console.log('CSS Animation triggered: ', animationName);
                 obj.addRemoveClass(animationName === 'onAutoFillStart', inputLabel, obj.classLabelFloat);
             }, false);
 
