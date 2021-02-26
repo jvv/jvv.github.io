@@ -118,12 +118,10 @@ aeon.input = {
 
             console.log('Start listening to animation start events');
             inputField.addEventListener('animationstart', function(event){	
-                console.log(event);
-                
-//                 if(animationName === 'onAutoFillStart') {
-//                     console.log('CSS Animation autofill triggered: ', animationName);	
-//                     obj.addRemoveClass(true, inputLabel, obj.classLabelFloat);
-//                 }
+                if(event.animationName === 'onAutoFillStart') {
+                    console.log('CSS Animation autofill triggered: ', event.animationName);	
+                    obj.addRemoveClass(true, inputLabel, obj.classLabelFloat);
+                }
 
             }, false);	
 
