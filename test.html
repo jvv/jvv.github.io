@@ -112,7 +112,13 @@ aeon.input = {
 
             inputField.addEventListener('animationstart', function({target, animationName}){	
                 console.log('CSS Animation triggered: ', animationName);	
-                obj.addRemoveClass(animationName === 'onAutoFillStart', inputLabel, obj.classLabelFloat);	
+                if(animationName === 'onAutoFillStart') {
+                    obj.addRemoveClass(animationName === 'onAutoFillStart', inputLabel, obj.classLabelFloat);
+                    // im a dog, don't know what im doing
+                    inputField.focus();
+                    inputField.blur();
+                }
+
             }, false);	
 
 
