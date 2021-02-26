@@ -48,7 +48,7 @@
                 <form>
                     <div class="aeon-form-item aeon-margin-bottom-24">
                         <div class="aeon-input">
-                            <input type="text" class="aeon-input__native-control" id="username" placeholder="Username">
+                            <input type="text" class="aeon-input__native-control" id="username" placeholder="Username" autocomplete="username">
                             <label class="aeon-input__label aeon-floating-label" for="username">Username</label>
                         </div>
                     </div>
@@ -111,9 +111,10 @@ aeon.input = {
             var inputLabel = inputKeeper.querySelector('.'+obj.classInputLabel);	
 
             inputField.addEventListener('animationstart', function({target, animationName}){	
-                console.log('CSS Animation triggered: ', animationName);	
+
                 if(animationName === 'onAutoFillStart') {
-                    obj.addRemoveClass(animationName === 'onAutoFillStart', inputLabel, obj.classLabelFloat);
+                    console.log('CSS Animation autofill triggert: ', animationName);	
+                    obj.addRemoveClass(true, inputLabel, obj.classLabelFloat);
                     // im a dog, don't know what im doing
                     inputField.focus();
                     inputField.blur();
