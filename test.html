@@ -110,8 +110,14 @@ aeon.input = {
             var inputField = inputKeeper.querySelector('.'+obj.classInputField);	
             var inputLabel = inputKeeper.querySelector('.'+obj.classInputLabel);	
 
-            inputField.addEventListener('animationstart', function({target, animationName}){	
+            
+            // make sure the float class for the label is present when there is text in the input	
+            console.log('On load: field:', inputField.getAttribute('id'));	
+            console.log('Has a value of:', inputField.value);	
+            obj.addRemoveClass(inputField.value.length > 0, inputLabel, obj.classLabelFloat);	
 
+            console.log('Start listening to animation start events');
+            inputField.addEventListener('animationstart', function({target, animationName}){	
                 if(animationName === 'onAutoFillStart') {
                     console.log('CSS Animation autofill triggert: ', animationName);	
                     obj.addRemoveClass(true, inputLabel, obj.classLabelFloat);
@@ -123,15 +129,11 @@ aeon.input = {
             }, false);	
 
 
-            // make sure the float class for the label is present when there is text in the input	
-            console.log('On load: field:', inputField.getAttribute('id'));	
-            console.log('Has a value of:', inputField.value);	
-
-            obj.addRemoveClass(inputField.value.length > 0, inputLabel, obj.classLabelFloat);	
 
             // on change of the input - give the label the active class (when there is text)	
             // This can happen by writing into the input programmatically or throught 	
             // autocomplete from the browser.	
+            console.log('start listening to change events');
             inputField.addEventListener('change', function(){	
                 console.log('Change event fired for field: ', inputField.getAttribute('id'));	
                 console.log('Now has a value of:', inputField.value);	
@@ -141,6 +143,7 @@ aeon.input = {
 
 
             // On focus of the input, make sure the label focus is given and the label floats	
+            console.log('start listening to focus events');
             inputField.addEventListener('focus', function() {	
                 obj.addRemoveClass(true, inputLabel, obj.classLabelFocus);	
                 obj.addRemoveClass(true, inputLabel, obj.classLabelActive);	
@@ -149,6 +152,7 @@ aeon.input = {
             })	
 
             // on blur of the input, remove the focus label and keep float label when text is present	
+            console.log('start listening to blur events');
             inputField.addEventListener('blur', function() {	
                 obj.addRemoveClass(false, inputLabel, obj.classLabelFocus);	
                 obj.addRemoveClass(false, inputLabel, obj.classLabelActive);	
