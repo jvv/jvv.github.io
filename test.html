@@ -7,37 +7,15 @@
     <link rel="stylesheet" href="https://aeon-cdn-dev.axldev.nl.aegon.io/aeon-web/latest/index.min.css" />
 
     <style>
-        @-webkit-keyframes onAutoFillStart {
-            from {
-                /**/ }
-            to {
-                /**/ } }
+        
+.aeon-input__native-control::placeholder {
+    opacity: 0;
+}
 
-            @keyframes onAutoFillStart {
-            from {
-                /**/ }
-            to {
-                /**/ } }
-
-            @-webkit-keyframes onAutoFillCancel {
-            from {
-                /**/ }
-            to {
-                /**/ } }
-
-            @keyframes onAutoFillCancel {
-            from {
-                /**/ }
-            to {
-                /**/ } }
-
-            input:-webkit-autofill {
-            -webkit-animation-name: onAutoFillStart;
-                    animation-name: onAutoFillStart; }
-
-            input:not(:-webkit-autofill) {
-            -webkit-animation-name: onAutoFillCancel;
-                    animation-name: onAutoFillCancel; }
+.aeon-input__native-control:focus ~ .aeon-input__label,
+.aeon-input__native-control:not(:placeholder-shown) ~ .aeon-input__label  {
+    transform: translateY(8px) scale(0.75);
+}
     </style>
 
 </head>
@@ -50,13 +28,13 @@
                 <form>
                     <div class="aeon-form-item aeon-margin-bottom-24">
                         <div class="aeon-input">
-                            <input type="text" class="aeon-input__native-control" id="username">
+                            <input type="text" class="aeon-input__native-control" id="username" placeholder="Username">
                             <label class="aeon-input__label aeon-floating-label" for="username">Username</label>
                         </div>
                     </div>
                     <div class="aeon-form-item aeon-margin-bottom-24">
                         <div class="aeon-input password">
-                            <input type="password" class="aeon-input__native-control" id="password">
+                            <input type="password" class="aeon-input__native-control" id="password" placeholder="Password">
                             <label class="aeon-input__label aeon-floating-label" for="password">Password</label>
                             <div class="toggle-visibility" onclick="togglePasswordVisibillity('password')">
                                 <div class="visibility-hide">
@@ -172,7 +150,7 @@ aeon.input = {
     }
 }
 
-aeon.input.init();
+//aeon.input.init();
 </script>
 
 
